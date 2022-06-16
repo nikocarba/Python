@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
+import os
 
+
+os.chdir('Olympics dataset/Data Engineering')
 athletes = pd.read_excel('Athletes.xlsx')
 entriesGender = pd.read_excel('EntriesGender.xlsx')
 medals = pd.read_excel('Medals.xlsx')
@@ -114,7 +117,7 @@ modify_NOC(athletes)
 modify_NOC(medals, 'team/noc')
 
 #insertar todas las tablas
-engine = create_engine('postgresql://postgres:mossoro@localhost:5432/test')
+engine = create_engine('postgresql://postgres:mossoro@localhost:5432/postgres')
 
 def insert_df(df, name):
   '''inserta tabla df en la base de datos con nombre de tabla name'''
