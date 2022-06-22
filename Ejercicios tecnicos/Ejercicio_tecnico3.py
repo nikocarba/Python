@@ -40,14 +40,14 @@ conn = pyodbc.connect(
 cursor = conn.cursor()
 
 try:
-    cursor.executemany(f"INSERT INTO prueba VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", df.values.tolist())
+    cursor.executemany(f"INSERT INTO unificado VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", df.values.tolist())
     conn.commit()
     f.write('{} - {} registros cargados.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), registros))
 except:
     f.write('{} - Falla en el proceso no se cargó ningun registro.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
 
 #Verificar que no hubo perdida de informacion
-cursor.execute('SELECT count(*) FROM prueba where fecha_copia = (select max(fecha_copia) from prueba)') #extraigo la cantidad de registros cargados en BD
+cursor.execute('SELECT count(*) FROM unificado where fecha_copia = (select max(fecha_copia) from unificado)') #extraigo la cantidad de registros cargados en BD
 f.write('{} - Se perdieron {} registros.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), registros - cursor.fetchone()[0])) #comparo los registros descargados contra los cargados en BD
 
 f.close()
