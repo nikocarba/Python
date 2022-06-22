@@ -2,10 +2,14 @@ import pandas as pd
 import datetime as dt
 import pyodbc
 
+database = 'challenge'
+
 time = dt.datetime.now().strftime('%Y-%m-%d')
 filename = 'carga_{}.log'.format(time)
 f = open(f'Python/ejercicios tecnicos/logs/{filename}', 'w') #Archivo de logs
 f.write('LOGS\n')
+f.write(f'Base de datos: {database}\n')
+f.write(f'Fecha: {dt.datetime.now().strftime("%d-%m-%Y")}\n')
 f.write('-----------\n\n')
 
 #Extract
@@ -29,7 +33,7 @@ registros = len(df)
 conn = pyodbc.connect(
     'Driver=ODBC Driver 17 for SQL Server;'
     'Server=desktop;'
-    'Database=challenge;'
+    f'Database={database};'
     'Trusted_Connection=yes;'
 )
 cursor = conn.cursor()
