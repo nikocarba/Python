@@ -18,6 +18,7 @@ try:
     df = pd.read_csv(url)
 except:
     f.write('{} - No se pudo descargar el archivo.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
+    exit()
 if df.shape[0] == 0:
     f.write('{} - Archivo vacio.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
     exit()
