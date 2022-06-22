@@ -1,10 +1,14 @@
 import pandas as pd
 import datetime as dt
 import pyodbc
+import os
 
 time = dt.datetime.now().strftime('%Y-%m-%d')
 filename = 'carga_{}.log'.format(time)
-f = open(filename, 'w') #Archivo de logs
+print(os.getcwd())
+f = open(f'Python/ejercicios tecnicos/logs/{filename}', 'w') #Archivo de logs
+f.write('LOGS\n')
+f.write('-----------\n\n')
 
 #Extract
 url = 'https://adlschallenge.blob.core.windows.net/challenge/nuevas_filas.csv?sp=r&st=2022-06-20T14:51:53Z&se=2022-12-31T22:51:53Z&spr=https&sv=2021-06-08&sr=b&sig=y9hLJFCVvGh1Ej58SXqsXTSVC6ABoVuQgfECDOd83Lw%3D'
@@ -40,9 +44,8 @@ except:
     f.write('{} - Falla en el proceso no se cargó ningun registro.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')))
 
 #Verificar que no hubo perdida de informacion
-cursor.execute('SELECT count(*) FROM prueba where fecha_copia = (select max(fecha_copia) from prueba)') #asumiendo que nunca se modifique la fecha del sistema
-
-f.write('{} - Se perdieron {} registros.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), registros - cursor.fetchone()[0]))
+cursor.execute('SELECT count(*) FROM prueba where fecha_copia = (select max(fecha_copia) from prueba)') #extraigo la cantidad de registros cargados en BD
+f.write('{} - Se perdieron {} registros.\n'.format(dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), registros - cursor.fetchone()[0])) #comparo los registros descargados contra los cargados en BD
 
 f.close()
 cursor.close()
