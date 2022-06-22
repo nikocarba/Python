@@ -1,11 +1,9 @@
 import pandas as pd
 import datetime as dt
 import pyodbc
-import os
 
 time = dt.datetime.now().strftime('%Y-%m-%d')
 filename = 'carga_{}.log'.format(time)
-print(os.getcwd())
 f = open(f'Python/ejercicios tecnicos/logs/{filename}', 'w') #Archivo de logs
 f.write('LOGS\n')
 f.write('-----------\n\n')
@@ -23,7 +21,7 @@ if df.shape[0] == 0:
 #Transform
 df.dropna(subset=['ID', 'MUESTRA', 'RESULTADO'], inplace=True) #dropea filas con keys nulos
 df.drop_duplicates(['ID', 'MUESTRA', 'RESULTADO'], keep='last', inplace=True) #dropea los duplicados
-df['FECHA_COPIA'] = time #pobla el campo FECHA_COPIA con la fecha y hora de carga
+df['FECHA_COPIA'] = dt.datetime.now() #pobla el campo FECHA_COPIA con la fecha y hora de carga
 registros = len(df)
 
 
